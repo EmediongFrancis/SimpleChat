@@ -9,6 +9,11 @@ var server = app.listen(3000, () => {
 // Serve static files.
 app.use(express.static(__dirname));
 
+// Use body parser.
+var bodyParser = require('body-parser')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}))
+
 // Connect to mongodb.
 var dburl = 'mongodb://localhost:27017/simplechat';
 mongooose.connect(dburl, (err) => {
