@@ -9,6 +9,10 @@ var server = app.listen(3000, () => {
 // Serve static files.
 app.use(express.static(__dirname));
 
+// Import socket.io.
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 // Use body parser.
 var bodyParser = require('body-parser');
 const { sendStatus } = require('express/lib/response');
