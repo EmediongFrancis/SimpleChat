@@ -1,50 +1,57 @@
-// Import express and serve app on port 3000.
+// Import installed dependencies.
 var express = require('express');
+var bodyParser = require('body-parser')
 var app = express();
-var mongooose = require('mongoose');
-var server = app.listen(3000, () => {
-    console.log('Chat Server is running on port', server.address().port + '!');
-});
-
-// Serve static files.
-app.use(express.static(__dirname));
-
-// Import socket.io.
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var mongoose = require('mongoose');
 
-// Use body parser.
-var bodyParser = require('body-parser');
-const { sendStatus } = require('express/lib/response');
+// Serve static files from the public directory.
+// Use the body parser to parse the request body.
+app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
 
-// Connect to mongodb.
-var dburl = 'mongodb://localhost:27017/simplechat';
-mongooose.connect(dburl, (err) => {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('Connected to Simple Chat Database!');
-    }
-});
+// Set message schema.
+var Message = mongoose.model('Message',{
+  name : String,
+  message : String
+})
 
-// Create a schema for the chat messages.
- var Message = mongooose.model('Message', {name: String, message: String}); 
+var dbUrl = 'mongodb://localhost:27017/simplechat';
 
-// Get the messages from the database.
 app.get('/messages', (req, res) => {
-    Message.find({}, (err, messages) => {
-        res.send(messages);
-    });
-});
+  Message.find({},(err, messages)=> {
+    res.send(messages);
+  })
+})
 
-// Post a message to the database.
+app.get('/messages', (req, res) => {
+  Message.find({},(err, messages)=> {
+    res.send(messages);
+  })
+})
+
 app.post('/messages', (req, res) => {
-    var message = new Message(req.body);
-    message.save((err) => {
-        if (err)
-            sendStatus(500);
-        res.sendStatus(200);
-    })
+  var message = new Message(req.body);
+  message.save((err) =>{
+    if(err)
+      sendStatus(500);
+    io.emit('message', req.body);
+    res.sendStatus(200);
+    console.log('Message saved!');
+  })
+})
+
+io.on('connection', () =>{
+  console.log('A user is connected!')
+})
+
+// Connect to the database.
+mongoose.connect(dbUrl,(err) => {
+  console.log('Connected to MongoDB!',err);
+})
+
+var server = http.listen(3000, () => {
+  console.log('Server is running on port', server.address().port + '!');
 });

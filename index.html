@@ -49,5 +49,10 @@
       $.post('http://localhost:3000/messages', message)
       }
     </script>
+    <script> 
+      src="/socket.io/socket.io.js"
+      var socket = io();
+      socket.on('message', addMessages);
+    </script>
 </body>
 </html>
