@@ -6,4 +6,4 @@ var server = app.listen(3000, () => {
 });
 
 // Serve static files.
-app.use(express.static('__dirname'));
+app.use(express.static(__dirname));
