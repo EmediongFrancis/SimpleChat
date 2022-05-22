@@ -1,5 +1,5 @@
 // Import installed modules.
-import express from "express";
+var express = require('express');
 const app = express();
 var http = require("http");
 const server = http.createServer(app);
@@ -18,11 +18,24 @@ var name;
 io.on("connection", (socket) => {
     console.log("New user connected!");
 
-    socket.on("chat-message", (username) => {
+    socket.on("user-alert", (username) => {
         name = username;
         io.emit("chat-message", `${name} has joined the chat! Please be civil!!`);
     });
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected!");
+        io.emit("chat-message", `${name} left the chat!`);
     });
+
+    socket.on("chat-message", (msg) => {
+        socket.broadcast.emit("chat-message", msg);
+    });
+});
+
+server.listen(3000, () => {
+    console.log("Server listening on port 3000!");
+});
 
 // // Assign express() function to variable and set port to 3000.
 // app.set("port", process.env.PORT || 3000);
