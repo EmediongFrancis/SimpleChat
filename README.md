@@ -12,4 +12,7 @@ Fun to try out with friends connected to the same server or network.
 * Open the browser to http://localhost:3000 to view the chat interface.
 * Open a new window of your browser to http://localhost:3000 to connect to the chat room as a different user to try out the real-time communication. By default, it is more fun when another human is on the other end. :)
 
+## Demo
+
+
 Happy chatting!
