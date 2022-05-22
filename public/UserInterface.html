@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Bendito&rsquo;s Chat Room</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel = "stylesheet" href="/styles.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+
+	<script>
+		// Get username from visitor.
+		var name = prompt("What username would you like to use?");
+	</script>
+</head>
+<body>
+    
+    <div id="banner">
+      <h1><center>Welcome to Bendito&rsquo;s Chat Room!</center></h1>
+    </div>
+    
+    <ul id="messages"></ul>
+
+    <!-- Create textbox form. -->
+    <form action="">
+      <input id="message" placeholder="Message..." autocomplete="off" required /><button>Send</button>
+    </form>
+
+	<!-- Use socket.io locally. -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+		
+    		var socket = io();
+
+			// Announce user to server.
+    		socket.emit('join-alert', name);
+			
+			// Submit message to server and clear textbox.
+    		$('form').submit(function(e) {
+    			e.preventDefault();
+      			socket.emit('chat-message', (name + ':  ' + $('#message').val()));
+                        $('#messages').append($('<li id="list">').text('You:  ' + $('#message').val()));
+      			$('#message').val('');
+      			return false;
+    		});
+
+			// Receive message from server and append to list.
+    		socket.on('chat-message', function(msg){
+      			$('#messages').append($('<li>').text(msg));
+    		});
+  		
+    </script>
+</body>
+</html>
