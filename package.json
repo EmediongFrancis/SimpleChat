@@ -4,7 +4,8 @@
   "description": "Basic real-time chat application built with Node.js, Express, Mongoose, and Socket.io.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon chatServer.js"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,8 @@
     "http": "^0.0.1-security",
     "mongoose": "^6.3.4",
     "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
