@@ -13,7 +13,6 @@ Fun to try out with friends connected to the same server or network.
 * Open a new window of your browser to http://localhost:3000 to connect to the chat room as a different user to try out the real-time communication. By default, it is more fun when another human is on the other end. :)
 
 ## Demo
-
-<iframe src='//gifs.com/embed/rtc-Eq70lY' frameborder='0' scrolling='no' width='1366px' height='768px' style='-webkit-backface-visibility: hidden;-webkit-transform: scale(1);' ></iframe>
+![Demo Video](https://github.com/EmediongFrancis/SimpleChat/blob/main/public/RTC.gif)
 
 Happy chatting!
